@@ -37,20 +37,23 @@
 <script scoped>
 import firebase from "firebase/app";
 import "firebase/firestore";
+import "firebase/storage";
 import "firebase/auth";
 
 export default {
   data() {
     return {
-      properties: []
+      properties: [],
+      images: []
     };
   },
   beforeMount() {
     firebase.auth().onAuthStateChanged(() => {
+      const uid = firebase.auth().currentUser.uid;
       firebase
         .firestore()
         .collection("properties")
-        .where("uid", "==", firebase.auth().currentUser.uid)
+        .where("uid", "==", uid)
         .get()
         .then((snapshot) => {
           snapshot.docs.forEach((item) => {
@@ -58,12 +61,15 @@ export default {
               id: item.id,
               name: item.data().name,
               city: item.data().city,
-              image: item.data().image,
               price: item.data().price,
               description: item.data().description
             });
           });
         });
+      const storageRef = firebase.storage().ref(`images/${uid}`);
+      storageRef.getDownloadURL().then((url) => {
+        console.log(url);
+      });
     });
   }
 };

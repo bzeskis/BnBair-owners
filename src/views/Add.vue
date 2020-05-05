@@ -152,17 +152,18 @@ export default {
           city: this.city,
           price: this.price,
           description: this.description,
-          image: this.image
         })
         .then((doc) => {
           for (let file of this.files) {
             const metadata = {
-              contentType: "image/jpg"
+              contentType: "image/jpg",
+              customMetadata: {
+                uid: uid,
+                propertyId: doc.id
+              }
             };
             const storageRef = firebase.storage().ref();
-            const imageRef = storageRef.child(
-              `images/${uid}/${doc.id}/${file.name}`
-            );
+            const imageRef = storageRef.child(`images/${file.name}`);
             imageRef.put(file, metadata);
           }
           this.success = true;
