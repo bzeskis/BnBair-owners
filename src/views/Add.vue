@@ -15,7 +15,7 @@
       />
       <Notification :display="error" type="is-warning" :message="errMessage" />
       <div id="changeProp" class="add-property">
-        <form action="" @submit.prevent="add">
+        <form action="" @submit.prevent="add()">
           <div class="notification is-hidden" id="add-notification">
             <!-- <button class="delete" id="register-notification-remove"></button> -->
           </div>
@@ -75,20 +75,33 @@
           <div class="field">
             <label class="label" for="img">Images (one minimum):</label>
             <div class="control">
-              <input
+              <!-- <input
                 v-model="image"
                 class="input"
                 type="text"
                 name="name"
                 placeholder="URL"
                 required
+              /> -->
+              <input
+                name="images"
+                @change="updateFileList($event.target.files)"
+                type="file"
+                accept="image/*"
+                multiple
               />
             </div>
           </div>
 
           <div class="field is-grouped">
             <div class="control">
-              <button id="add" class="button is-primary">Add property</button>
+              <button
+                id="add"
+                class="button is-primary"
+                :class="{ 'is-loading': loading }"
+              >
+                Add property
+              </button>
             </div>
           </div>
         </form>
@@ -101,6 +114,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import "firebase/storage";
 import Notification from "@/components/Notification";
 
 export default {
@@ -110,6 +124,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       name: "",
       city: "",
       price: 0,
@@ -117,11 +132,17 @@ export default {
       image: "",
       success: false,
       error: false,
-      errMessage: ""
+      errMessage: "",
+      files: []
     };
   },
   methods: {
-    add() {
+    updateFileList(files) {
+      this.files = files;
+    },
+    async add() {
+      this.loading = true;
+      const uid = await firebase.auth().currentUser.uid;
       firebase
         .firestore()
         .collection("properties")
@@ -133,8 +154,19 @@ export default {
           description: this.description,
           image: this.image
         })
-        .then(() => {
+        .then((doc) => {
+          for (let file of this.files) {
+            const metadata = {
+              contentType: "image/jpg"
+            };
+            const storageRef = firebase.storage().ref();
+            const imageRef = storageRef.child(
+              `images/${uid}/${doc.id}/${file.name}`
+            );
+            imageRef.put(file, metadata);
+          }
           this.success = true;
+          this.loading = false;
         })
         .catch((err) => {
           this.errMessage = err.message;
