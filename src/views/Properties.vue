@@ -17,13 +17,16 @@
             </router-link>
           </div>
           <div class="media-content">
-            <div class="content">
-              <p></p>
-              <h3 class="title">{{ property.name }}</h3>
-              <p>{{ property.description }}</p>
-              <p><strong> Price: </strong> {{ property.price }}€</p>
-            </div>
+            <router-link :to="{ path: `/view/${property.id}` }">
+              <div class="content">
+                <p></p>
+                <h3 class="title">{{ property.name }}</h3>
+                <p>{{ property.description }}</p>
+                <p><strong> Price: </strong> {{ property.price }}€</p>
+              </div>
+            </router-link>
           </div>
+
           <a class="button" :href="'/edit/' + property.id">Edit</a>
         </article>
       </div>
@@ -75,28 +78,39 @@ article {
   flex-direction: column;
   align-items: center;
 }
-
-@media screen and (min-width: 768px) {
-  article {
-    flex-direction: row;
-  }
-  .media-left {
-    width: 30%;
-  }
+a .button {
+  margin-top: 1rem;
 }
+
 .box a {
   color: black;
-}
-
-.box {
-  transition: transform 0.2s;
 }
 
 .box:last-child {
   margin-bottom: 2rem;
 }
 
-.box:hover {
-  transform: translateX(5px);
+.media-content {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+@media screen and (min-width: 768px) {
+  .media-content {
+    margin-right: 1rem;
+    text-align: left;
+  }
+  article {
+    flex-direction: row;
+  }
+  .media-left {
+    width: 30%;
+  }
+  .box {
+    transition: transform 0.2s;
+  }
+  .box:hover {
+    transform: translateX(5px);
+  }
 }
 </style>

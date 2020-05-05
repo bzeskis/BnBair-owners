@@ -8,6 +8,12 @@
           </h1>
         </div>
       </section>
+      <Notification
+        :display="success"
+        type="is-success"
+        message="Successfully added a new listing"
+      />
+      <Notification :display="error" type="is-warning" :message="errMessage" />
       <div id="changeProp" class="add-property">
         <form action="" @submit.prevent="add">
           <div class="notification is-hidden" id="add-notification">
@@ -61,6 +67,7 @@
                 name="description"
                 placeholder="anything you would like to say?"
                 required
+                maxlength="600"
               ></textarea>
             </div>
           </div>
@@ -94,14 +101,23 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import Notification from "@/components/Notification";
+
 export default {
+  name: "Add",
+  components: {
+    Notification
+  },
   data() {
     return {
       name: "",
       city: "",
       price: 0,
       description: "",
-      image: ""
+      image: "",
+      success: false,
+      error: false,
+      errMessage: ""
     };
   },
   methods: {
@@ -118,10 +134,11 @@ export default {
           image: this.image
         })
         .then(() => {
-          console.log("success");
+          this.success = true;
         })
         .catch((err) => {
-          alert(err.message);
+          this.errMessage = err.message;
+          this.error = true;
         });
     }
   }
@@ -135,5 +152,8 @@ select {
 
 #add {
   margin-top: 1rem;
+}
+button {
+  margin-bottom: 1rem;
 }
 </style>

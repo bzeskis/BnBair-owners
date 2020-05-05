@@ -12,6 +12,13 @@
             <!-- <button class="delete" id="register-notification-remove"></button> -->
           </div>
 
+          <Notification
+            :display="success"
+            type="is-success"
+            message="Successfully edited this listing"
+          />
+          <Notification :display="error" type="is-warning" :message="errMessage" />
+
           <div class="field">
             <div class="control">
               <label class="label" for="price">Price per night, EUR</label>
@@ -35,6 +42,7 @@
                 name="description"
                 placeholder="anything you would like to say?"
                 required
+                maxlength="600"
               ></textarea>
             </div>
           </div>
@@ -68,7 +76,11 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import Notification from "@/components/Notification";
 export default {
+  components: {
+    Notification
+  },
   data() {
     return {
       property: {
@@ -77,7 +89,10 @@ export default {
         price: "",
         description: "",
         image: ""
-      }
+      },
+      success: false,
+      error: false,
+      errMessage: ""
     };
   },
   methods: {
@@ -92,7 +107,11 @@ export default {
           image: this.property.image
         })
         .then(() => {
-          alert("successfully updated");
+          this.success = true;
+        })
+        .catch((err) => {
+          this.errMessage = err.message;
+          this.error = true;
         });
     }
   },

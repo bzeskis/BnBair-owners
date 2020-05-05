@@ -24,7 +24,7 @@
           <div v-if="isLoaded" class="navbar-end">
             <div class="navbar-item">
               <div v-if="!loggedIn" class="buttons">
-                <router-link to="/register" class="button is-primary">
+                <router-link to="/register" class="button is-success">
                   <strong>Sign up</strong>
                 </router-link>
                 <router-link to="/login" class="button is-light">
@@ -32,8 +32,11 @@
                 </router-link>
               </div>
               <div v-else class="buttons">
-                <button class="button is-primary">
-                  <router-link to="/add">Add new</router-link>
+                <button class="button is-success">
+                  <router-link to="/add">Add New</router-link>
+                </button>
+                <button class="button is-success">
+                  <router-link to="/properties">See All</router-link>
                 </button>
                 <button @click="signOut" class="button is-light">
                   Sign Out
