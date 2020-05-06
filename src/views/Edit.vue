@@ -47,11 +47,11 @@
             </div>
           </div>
 
-          <div class="field">
-            <label class="label" for="img">Images (one minimum):</label>
+          <label class="label" for="img">Images (one minimum):</label>
+          <div class="field" v-for="index in imgCounter" :key="index">
             <div class="control">
               <input
-                v-model="property.image"
+                v-model="property.images[index - 1]"
                 class="input"
                 type="text"
                 name="name"
@@ -60,6 +60,10 @@
               />
             </div>
           </div>
+
+          <button @click="imgCounter++" type="button" class="button is-rounded">
+            + Add more images
+          </button>
 
           <div class="field is-grouped">
             <div class="control">
@@ -88,8 +92,9 @@ export default {
         name: "",
         price: "",
         description: "",
-        image: ""
+        images: []
       },
+      imgCounter: 0,
       success: false,
       error: false,
       errMessage: ""
@@ -99,12 +104,14 @@ export default {
     update() {
       firebase
         .firestore()
+        .collection("users")
+        .doc(firebase.auth().currentUser.uid)
         .collection("properties")
         .doc(this.$route.params.id)
         .update({
           price: this.property.price,
           description: this.property.description,
-          image: this.property.image
+          images: this.property.images
         })
         .then(() => {
           this.success = true;
@@ -118,6 +125,8 @@ export default {
   beforeMount() {
     firebase
       .firestore()
+      .collection("users")
+      .doc(firebase.auth().currentUser.uid)
       .collection("properties")
       .doc(this.$route.params.id)
       .get()
@@ -126,7 +135,8 @@ export default {
         this.property.name = doc.data().name;
         this.property.price = doc.data().price;
         this.property.description = doc.data().description;
-        this.property.image = doc.data().image;
+        this.property.images = doc.data().images;
+        this.imgCounter = this.property.images.length;
       });
   }
 };

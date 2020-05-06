@@ -12,12 +12,12 @@
       <div v-for="property of properties" :key="property.id" class="box">
         <article class="media">
           <div class="media-left">
-            <router-link :to="{ path: `/view/${property.id}` }">
+            <router-link :to="{ path: `/host/view/${property.id}` }">
               <img :src="property.image" alt="Image" />
             </router-link>
           </div>
           <div class="media-content">
-            <router-link :to="{ path: `/view/${property.id}` }">
+            <router-link :to="{ path: `/host/view/${property.id}` }">
               <div class="content">
                 <p></p>
                 <h3 class="title">{{ property.name }}</h3>
@@ -27,7 +27,7 @@
             </router-link>
           </div>
 
-          <a class="button" :href="'/edit/' + property.id">Edit</a>
+          <a class="button" :href="'/host/edit/' + property.id">Edit</a>
         </article>
       </div>
     </div>
@@ -62,6 +62,10 @@ export default {
               id: item.id,
               name: item.data().name,
               city: item.data().city,
+<<<<<<< HEAD
+=======
+              image: item.data().images[0],
+>>>>>>> ca4ee3a68821f96850d695f3f63ad8df1a7d894a
               price: item.data().price,
               description: item.data().description
             });

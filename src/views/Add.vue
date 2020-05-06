@@ -72,11 +72,11 @@
             </div>
           </div>
 
-          <div class="field">
-            <label class="label" for="img">Images (one minimum):</label>
+          <label class="label" for="img">Images (one minimum):</label>
+          <div class="field" v-for="index in imgCounter" :key="index">
             <div class="control">
               <input
-                v-model="image"
+                v-model="images[index - 1]"
                 class="input"
                 type="text"
                 name="name"
@@ -91,6 +91,12 @@
                 multiple
               /> -->
             </div>
+          </div>
+
+          <div class="control">
+            <button @click="imgCounter++" class="button is-success is-rounded">
+              +
+            </button>
           </div>
 
           <div class="field is-grouped">
@@ -129,11 +135,15 @@ export default {
       city: "",
       price: 0,
       description: "",
-      image: "",
+      images: [],
       success: false,
       error: false,
       errMessage: "",
+<<<<<<< HEAD
       files: []
+=======
+      imgCounter: 1
+>>>>>>> ca4ee3a68821f96850d695f3f63ad8df1a7d894a
     };
   },
   methods: {
@@ -146,14 +156,18 @@ export default {
       firebase
         .firestore()
         .collection("users")
+<<<<<<< HEAD
         .doc(uid)
+=======
+        .doc(firebase.auth().currentUser.uid)
+>>>>>>> ca4ee3a68821f96850d695f3f63ad8df1a7d894a
         .collection("properties")
         .add({
           name: this.name,
           city: this.city,
           price: this.price,
           description: this.description,
-          image: this.image
+          images: this.images
         })
         .then(() => {
           this.success = true;
