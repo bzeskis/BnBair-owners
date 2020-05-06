@@ -75,21 +75,21 @@
           <div class="field">
             <label class="label" for="img">Images (one minimum):</label>
             <div class="control">
-              <!-- <input
+              <input
                 v-model="image"
                 class="input"
                 type="text"
                 name="name"
                 placeholder="URL"
                 required
-              /> -->
-              <input
+              />
+              <!-- <input
                 name="images"
                 @change="updateFileList($event.target.files)"
                 type="file"
                 accept="image/*"
                 multiple
-              />
+              /> -->
             </div>
           </div>
 
@@ -145,30 +145,34 @@ export default {
       const uid = await firebase.auth().currentUser.uid;
       firebase
         .firestore()
+        .collection("users")
+        .doc(uid)
         .collection("properties")
         .add({
-          uid: firebase.auth().currentUser.uid,
           name: this.name,
           city: this.city,
           price: this.price,
           description: this.description,
+          image: this.image
         })
-        .then((doc) => {
-          for (let file of this.files) {
-            const metadata = {
-              contentType: "image/jpg",
-              customMetadata: {
-                uid: uid,
-                propertyId: doc.id
-              }
-            };
-            const storageRef = firebase.storage().ref();
-            const imageRef = storageRef.child(`images/${file.name}`);
-            imageRef.put(file, metadata);
-          }
+        .then(() => {
           this.success = true;
           this.loading = false;
         })
+        // .then((doc) => {
+        //   for (let file of this.files) {
+        //     const metadata = {
+        //       contentType: "image/jpg",
+        //       customMetadata: {
+        //         uid: uid,
+        //         propertyId: doc.id
+        //       }
+        //     };
+        //     const storageRef = firebase.storage().ref();
+        //     const imageRef = storageRef.child(`images/${file.name}`);
+        //     imageRef.put(file, metadata);
+        //   }
+
         .catch((err) => {
           this.errMessage = err.message;
           this.error = true;

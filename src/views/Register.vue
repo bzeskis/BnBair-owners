@@ -86,21 +86,24 @@ export default {
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.email, this.password)
-        .then((user) => {
+        .then(() => {
           firebase
             .firestore()
             .collection("users")
-            .add({
-              id: user.user.uid,
+            .doc(firebase.auth().currentUser.uid)
+            .set({
               firstName: this.firstName,
               lastName: this.lastName
             });
         })
-        .then(() => (this.loading = false))
         .then(() => {
+          this.loading = false;
           this.$router.replace("/properties");
         })
-        .catch((e) => alert(e.message));
+        .catch((e) => {
+          this.loading = false;
+          console.log(e.message);
+        });
     }
   }
 };

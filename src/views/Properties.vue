@@ -49,13 +49,14 @@ export default {
   },
   beforeMount() {
     firebase.auth().onAuthStateChanged(() => {
-      const uid = firebase.auth().currentUser.uid;
       firebase
         .firestore()
+        .collection("users")
+        .doc(firebase.auth().currentUser.uid)
         .collection("properties")
-        .where("uid", "==", uid)
         .get()
         .then((snapshot) => {
+          console.log(snapshot);
           snapshot.docs.forEach((item) => {
             this.properties.push({
               id: item.id,
@@ -66,10 +67,16 @@ export default {
             });
           });
         });
-      const storageRef = firebase.storage().ref(`images/${uid}`);
-      storageRef.getDownloadURL().then((url) => {
-        console.log(url);
-      });
+      // const storageRef = firebase
+      //   .storage()
+      //   .ref()
+      //   .child(`images`);
+      // storageRef.listAll().then((res) => {
+      //   console.log(res.items);
+      // });
+      // storageRef.getDownloadURL().then((url) => {
+      //   console.log(url);
+      // });
     });
   }
 };
