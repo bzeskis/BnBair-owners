@@ -5,7 +5,11 @@
         <h3 class="title">{{ property.name }}</h3>
         <article class="media">
           <div class="media-left">
-            <img :src="property.image" alt="Image" />
+            <div class="columns">
+              <div class="column" v-for="index in imgCounter" :key="index">
+                <img :src="property.images[index - 1]" alt="Image" />
+              </div>
+            </div>
           </div>
           <div class="media-content">
             <div class="content">
@@ -33,13 +37,16 @@ export default {
         name: "",
         price: "",
         description: "",
-        image: ""
-      }
+        images: []
+      },
+      imgCounter: 0
     };
   },
   beforeMount() {
     firebase
       .firestore()
+      .collection("users")
+      .doc(firebase.auth().currentUser.uid)
       .collection("properties")
       .doc(this.$route.params.id)
       .get()
@@ -48,9 +55,9 @@ export default {
         this.property.name = doc.data().name;
         this.property.price = doc.data().price;
         this.property.description = doc.data().description;
-        this.property.image = doc.data().image;
-      })
-      .then(() => console.log(this.property));
+        this.property.images = doc.data().images;
+        this.imgCounter = this.property.images.length;
+      });
   }
 };
 </script>
