@@ -72,11 +72,11 @@
             </div>
           </div>
 
-          <div class="field">
-            <label class="label" for="img">Images (one minimum):</label>
+          <label class="label" for="img">Images (one minimum):</label>
+          <div class="field" v-for="index in imgCounter" :key="index">
             <div class="control">
               <input
-                v-model="image"
+                v-model="images[index - 1]"
                 class="input"
                 type="text"
                 name="name"
@@ -84,6 +84,12 @@
                 required
               />
             </div>
+          </div>
+
+          <div class="control">
+            <button @click="imgCounter++" class="button is-success is-rounded">
+              +
+            </button>
           </div>
 
           <div class="field is-grouped">
@@ -114,10 +120,11 @@ export default {
       city: "",
       price: 0,
       description: "",
-      image: "",
+      images: [],
       success: false,
       error: false,
-      errMessage: ""
+      errMessage: "",
+      imgCounter: 1
     };
   },
   methods: {
@@ -132,7 +139,7 @@ export default {
           city: this.city,
           price: this.price,
           description: this.description,
-          image: this.image
+          images: this.images
         })
         .then(() => {
           this.success = true;

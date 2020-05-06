@@ -59,7 +59,7 @@ export default {
               id: item.id,
               name: item.data().name,
               city: item.data().city,
-              image: item.data().image,
+              image: item.data().images[0],
               price: item.data().price,
               description: item.data().description
             });

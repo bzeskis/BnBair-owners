@@ -40,6 +40,8 @@ export default {
   beforeMount() {
     firebase
       .firestore()
+      .collection("users")
+      .doc(firebase.auth().currentUser.uid)
       .collection("properties")
       .doc(this.$route.params.id)
       .get()
@@ -48,7 +50,7 @@ export default {
         this.property.name = doc.data().name;
         this.property.price = doc.data().price;
         this.property.description = doc.data().description;
-        this.property.image = doc.data().image;
+        this.property.image = doc.data().images[0];
       })
       .then(() => console.log(this.property));
   }

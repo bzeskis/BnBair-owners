@@ -32,12 +32,12 @@
                 </router-link>
               </div>
               <div v-else class="buttons">
-                <button class="button is-success">
-                  <router-link to="/add">Add New</router-link>
-                </button>
-                <button class="button is-success">
-                  <router-link to="/properties">See All</router-link>
-                </button>
+                <router-link class="button is-success" to="/add"
+                  >Add New</router-link
+                >
+                <router-link class="button is-success" to="/properties"
+                  >See All</router-link
+                >
                 <button @click="signOut" class="button is-light">
                   Sign Out
                 </button>
