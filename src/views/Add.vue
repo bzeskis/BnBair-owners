@@ -124,9 +124,10 @@ export default {
     add() {
       firebase
         .firestore()
+        .collection("users")
+        .doc(firebase.auth().currentUser.uid)
         .collection("properties")
         .add({
-          uid: firebase.auth().currentUser.uid,
           name: this.name,
           city: this.city,
           price: this.price,

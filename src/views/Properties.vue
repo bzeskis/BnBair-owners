@@ -49,8 +49,9 @@ export default {
     firebase.auth().onAuthStateChanged(() => {
       firebase
         .firestore()
+        .collection("users")
+        .doc(firebase.auth().currentUser.uid)
         .collection("properties")
-        .where("uid", "==", firebase.auth().currentUser.uid)
         .get()
         .then((snapshot) => {
           snapshot.docs.forEach((item) => {

@@ -99,6 +99,8 @@ export default {
     update() {
       firebase
         .firestore()
+        .collection("users")
+        .doc(firebase.auth().currentUser.uid)
         .collection("properties")
         .doc(this.$route.params.id)
         .update({
@@ -118,6 +120,8 @@ export default {
   beforeMount() {
     firebase
       .firestore()
+      .collection("users")
+      .doc(firebase.auth().currentUser.uid)
       .collection("properties")
       .doc(this.$route.params.id)
       .get()
