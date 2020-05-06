@@ -98,7 +98,7 @@ export default {
         })
         .then(() => (this.loading = false))
         .then(() => {
-          this.$router.replace("/properties");
+          this.$router.replace("/host/properties");
         })
         .catch((e) => alert(e.message));
     }

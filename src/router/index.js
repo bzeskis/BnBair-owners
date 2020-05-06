@@ -7,7 +7,7 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/login",
+    path: "/host/login",
     name: "Login",
     component: () => import(/* webpackChunkName: "login" */ "../views/Login.vue"),
     meta: {
@@ -15,7 +15,7 @@ const routes = [
     }
   },
   {
-    path: "/register",
+    path: "/host/register",
     name: "Register",
     component: () =>
       import(/* webpackChunkName: "register" */ "../views/Register.vue"),
@@ -24,7 +24,7 @@ const routes = [
     }
   },
   {
-    path: "/properties",
+    path: "/host/properties",
     name: "Properties",
     component: () =>
       import(/* webpackChunkName: "register" */ "../views/Properties.vue"),
@@ -33,7 +33,7 @@ const routes = [
     }
   },
   {
-    path: "/add",
+    path: "/host/add",
     name: "Add",
     component: () => import(/* webpackChunkName: "add" */ "../views/Add.vue"),
     meta: {
@@ -41,7 +41,7 @@ const routes = [
     }
   },
   {
-    path: "/view/:id",
+    path: "/host/view/:id",
     name: "View",
     component: () => import(/* webpackChunkName: "view" */ "../views/View.vue"),
     meta: {
@@ -49,7 +49,7 @@ const routes = [
     }
   },
   {
-    path: "/edit/:id",
+    path: "/host/edit/:id",
     name: "Edit",
     component: () => import(/* webpackChunkName: "view" */ "../views/Edit.vue"),
     meta: {
@@ -58,7 +58,7 @@ const routes = [
   },
   {
     path: "/",
-    redirect: "properties"
+    redirect: "host/properties"
   }
 ];
 
@@ -72,11 +72,11 @@ router.beforeEach((to, from, next) => {
   firebase.auth().onAuthStateChanged((user) => {
     if (user && to.matched.some((record) => record.meta.requiresAnon)) {
       next({
-        path: "/properties"
+        path: "/host/properties"
       });
     } else if (!user && to.matched.some((record) => record.meta.requiresAuth)) {
       next({
-        path: "/login"
+        path: "/host/login"
       });
     } else {
       next();

@@ -60,7 +60,7 @@ export default {
         .signInWithEmailAndPassword(this.email, this.password)
         .then(() => (this.loading = false))
         .then(() => {
-          this.$router.replace("/properties");
+          this.$router.replace("/host/properties");
         })
         .catch((e) => console.log(e.message));
     }
