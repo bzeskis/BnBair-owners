@@ -97,12 +97,7 @@ export default {
             });
         })
         .then(() => {
-<<<<<<< HEAD
-          this.loading = false;
-          this.$router.replace("/properties");
-=======
           this.$router.replace("/host/properties");
->>>>>>> ca4ee3a68821f96850d695f3f63ad8df1a7d894a
         })
         .catch((e) => {
           this.loading = false;

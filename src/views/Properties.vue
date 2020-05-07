@@ -23,6 +23,7 @@
                 <h3 class="title">{{ property.name }}</h3>
                 <p>{{ property.description }}</p>
                 <p><strong> Price: </strong> {{ property.price }}€</p>
+                <p><strong> City: </strong> {{ property.city }}</p>
               </div>
             </router-link>
           </div>
@@ -62,10 +63,7 @@ export default {
               id: item.id,
               name: item.data().name,
               city: item.data().city,
-<<<<<<< HEAD
-=======
               image: item.data().images[0],
->>>>>>> ca4ee3a68821f96850d695f3f63ad8df1a7d894a
               price: item.data().price,
               description: item.data().description
             });

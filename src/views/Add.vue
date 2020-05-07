@@ -83,21 +83,12 @@
                 placeholder="URL"
                 required
               />
-              <!-- <input
-                name="images"
-                @change="updateFileList($event.target.files)"
-                type="file"
-                accept="image/*"
-                multiple
-              /> -->
             </div>
           </div>
 
-          <div class="control">
-            <button @click="imgCounter++" class="button is-success is-rounded">
-              +
-            </button>
-          </div>
+          <button @click="imgCounter++" type="button" class="button is-rounded">
+            + Add more images
+          </button>
 
           <div class="field is-grouped">
             <div class="control">
@@ -139,11 +130,7 @@ export default {
       success: false,
       error: false,
       errMessage: "",
-<<<<<<< HEAD
-      files: []
-=======
       imgCounter: 1
->>>>>>> ca4ee3a68821f96850d695f3f63ad8df1a7d894a
     };
   },
   methods: {
@@ -152,15 +139,10 @@ export default {
     },
     async add() {
       this.loading = true;
-      const uid = await firebase.auth().currentUser.uid;
       firebase
         .firestore()
         .collection("users")
-<<<<<<< HEAD
-        .doc(uid)
-=======
         .doc(firebase.auth().currentUser.uid)
->>>>>>> ca4ee3a68821f96850d695f3f63ad8df1a7d894a
         .collection("properties")
         .add({
           name: this.name,
@@ -173,20 +155,6 @@ export default {
           this.success = true;
           this.loading = false;
         })
-        // .then((doc) => {
-        //   for (let file of this.files) {
-        //     const metadata = {
-        //       contentType: "image/jpg",
-        //       customMetadata: {
-        //         uid: uid,
-        //         propertyId: doc.id
-        //       }
-        //     };
-        //     const storageRef = firebase.storage().ref();
-        //     const imageRef = storageRef.child(`images/${file.name}`);
-        //     imageRef.put(file, metadata);
-        //   }
-
         .catch((err) => {
           this.errMessage = err.message;
           this.error = true;
